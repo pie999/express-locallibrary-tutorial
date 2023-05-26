@@ -1,3 +1,4 @@
+require("dotenv").config();
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
@@ -33,9 +34,7 @@ app.use(limiter);
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const dev_db_url =
-  "mongodb+srv://lolloso:lollante@cluster0.bmers5x.mongodb.net/local_library?retryWrites=true&w=majority";
-const mongoDB = process.env.MONGODB_URI || dev_db_url;
+const mongoDB = process.env.MONGO_URL;
 
 main().catch((err) => console.log(err));
 async function main() {
@@ -51,7 +50,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(compression);
+app.use(compression());
 
 app.use(express.static(path.join(__dirname, "public")));
 
